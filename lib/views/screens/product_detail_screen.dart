@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mvvm_arch/viewmodels/product/product_bloc.dart';
 import 'package:mvvm_arch/views/widgets/outline_icon_button_widget.dart';
 
 import '../../core/constants/constant_string.dart';
 import '../../models/product.dart';
+import '../widgets/cart_product_count_widget.dart';
 import '../widgets/custom_elevated_button_widget.dart';
 import '../widgets/product_item_widget.dart';
 
@@ -42,13 +42,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
-            onPressed: () {
-              debugPrint('view cart!');
-            },
-            icon: const Icon(
-              Icons.shopping_cart,
-              color: Colors.white,
+            onPressed: () => Navigator.pushNamed(
+              context,
+              ConstantString.navigationCartList,
             ),
+            icon: const CartProductCountWidget(),
           )
         ],
         title: BlocSelector<ProductBloc, ProductState, String>(
@@ -98,7 +96,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "$dollarSign${state.product.price}",
+                              "${ConstantString.dollarSign}${state.product.price}",
                               textAlign: TextAlign.left,
                               style: Theme.of(context)
                                   .textTheme
@@ -109,9 +107,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       fontSize: 30),
                             ),
                             OutlineIconButton(
-                              label: 'Add To Cart',
+                              label: ConstantString.addToCart,
                               iconData: Icons.shopping_cart,
-                              onPressed: () {},
+                              onPressed: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            ConstantString.notYetAvailable)));
+                              },
                             )
                           ],
                         ),
@@ -137,9 +140,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       height: 50,
                       width: double.infinity,
                       child: CustomElevatedButtonWidget(
-                        onPressed: () {},
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text(ConstantString.notYetAvailable)));
+                        },
                         child: const Text(
-                          'Buy Now',
+                          ConstantString.buyNow,
                         ),
                       ),
                     ),
