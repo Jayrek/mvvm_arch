@@ -7,8 +7,8 @@ class ProductEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchProduct extends ProductEvent {
-  const FetchProduct();
+class FetchProductList extends ProductEvent {
+  const FetchProductList();
 }
 
 class FetchProductByCategory extends ProductEvent {
@@ -20,6 +20,18 @@ class FetchProductByCategory extends ProductEvent {
   List<Object> get props => [categoryType];
 }
 
-class FetchCategory extends ProductEvent {
-  const FetchCategory();
+class FetchCategoryList extends ProductEvent {
+  const FetchCategoryList();
+}
+
+class FetchProduct extends ProductEvent {
+  const FetchProduct({
+    required this.productId,
+    required this.isTapFromDetail,
+  });
+  final String productId;
+  final bool isTapFromDetail;
+
+  @override
+  List<Object> get props => [productId, isTapFromDetail];
 }

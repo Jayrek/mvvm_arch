@@ -15,13 +15,14 @@ part 'product_state.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final FakeStoreService fakeStoreService;
   ProductBloc({required this.fakeStoreService}) : super(const ProductState()) {
-    on<FetchProduct>(_onFetchProduct);
-    on<FetchCategory>(_onFetchCategory);
+    on<FetchProductList>(_onFetchProductList);
+    on<FetchCategoryList>(_onFetchCategoryList);
     on<FetchProductByCategory>(_onFetchProductByCategory);
+    on<FetchProduct>(_onFetchProduct);
   }
 
-  FutureOr<void> _onFetchProduct(
-    FetchProduct event,
+  FutureOr<void> _onFetchProductList(
+    FetchProductList event,
     Emitter<ProductState> emit,
   ) async {
     emit(state.copyWith(
@@ -60,8 +61,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
   // fetch categories
-  FutureOr<void> _onFetchCategory(
-      FetchCategory event, Emitter<ProductState> emit) async {
+  FutureOr<void> _onFetchCategoryList(
+      FetchCategoryList event, Emitter<ProductState> emit) async {
     final categories = await fakeStoreService.getCategories();
     categories.fold((failure) {
       debugPrint('exception: $failure');
@@ -91,10 +92,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       errorMessage: '',
       products: state.products,
       categories: updatedCategories,
+      product: Product.defautlValue,
     ));
     debugPrint('categoryType: ${event.categoryType}');
     if (event.categoryType == 'all') {
-      add(const FetchProduct());
+      add(const FetchProductList());
     } else {
       final products =
           await fakeStoreService.getProductsByCategory(event.categoryType);
@@ -119,5 +121,42 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         },
       );
     }
+  }
+
+  FutureOr<void> _onFetchProduct(
+      FetchProduct event, Emitter<ProductState> emit) async {
+    emit(state.copyWith(
+      productByIdState: ProductByIdState.loading,
+      errorMessage: '',
+      isTapFromDetail: event.isTapFromDetail,
+    ));
+    final product = await fakeStoreService.getProduct(event.productId);
+    product.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            productByIdState: ProductByIdState.failed,
+            errorMessage: failure.message,
+          ),
+        );
+      },
+      (data) {
+        // final updatedCategories = state.categories
+        //     .map(
+        //       (category) => category.copyWith(
+        //         isSelected: category.categoryName == 'all',
+        //       ),
+        //     )
+        //     .toList();
+        emit(
+          state.copyWith(
+            productByIdState: ProductByIdState.success,
+            product: data,
+            errorMessage: '',
+            // categories: updatedCategories,
+          ),
+        );
+      },
+    );
   }
 }
