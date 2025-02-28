@@ -141,19 +141,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         );
       },
       (data) {
-        // final updatedCategories = state.categories
-        //     .map(
-        //       (category) => category.copyWith(
-        //         isSelected: category.categoryName == 'all',
-        //       ),
-        //     )
-        //     .toList();
         emit(
           state.copyWith(
             productByIdState: ProductByIdState.success,
             product: data,
             errorMessage: '',
-            // categories: updatedCategories,
           ),
         );
       },
