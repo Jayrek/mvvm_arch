@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mvvm_arch/core/services/fake_store_service.dart';
 // import 'package:mvvm_arch/viewmodels/category/category_bloc.dart';
 import 'package:mvvm_arch/viewmodels/product/product_bloc.dart';
+import 'package:mvvm_arch/views/screens/product_detail_screen.dart';
 import 'package:mvvm_arch/views/screens/product_list_screen.dart';
+
+// import 'models/product.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,8 +25,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 ProductBloc(fakeStoreService: context.read<FakeStoreService>())
-                  ..add(const FetchProduct())
-                  ..add(const FetchCategory()),
+                  ..add(const FetchProductList())
+                  ..add(const FetchCategoryList()),
           ),
           // BlocProvider(
           //   create: (context) =>
@@ -39,21 +42,43 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             textTheme: const TextTheme(
               displayLarge: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87),
+                fontFamily: 'Montserrat',
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
               titleMedium: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600),
+                fontFamily: 'Montserrat',
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
               bodyMedium: TextStyle(
-                  fontFamily: 'Lato', fontSize: 16, color: Colors.black87),
+                fontFamily: 'Lato',
+                fontSize: 16,
+                color: Colors.black87,
+              ),
               bodySmall: TextStyle(
-                  fontFamily: 'Lato', fontSize: 14, color: Colors.black87),
+                fontFamily: 'Lato',
+                fontSize: 14,
+                color: Colors.black87,
+              ),
             ),
           ),
-          home: const ProductListScreen(),
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const ProductListScreen(),
+            '/productDetail': (context) => const ProductDetailScreen()
+          },
+          // onGenerateRoute: (settings) {
+          //   if (settings.name == '/productDetail') {
+          //     final product = settings.arguments as Product;
+          //     return MaterialPageRoute(
+          //       builder: (context) => ProductDetailScreen(product: product),
+          //     );
+          //   }
+          //   return null;
+          // },
+          // home: const ProductListScreen(),
         ),
       ),
     );
