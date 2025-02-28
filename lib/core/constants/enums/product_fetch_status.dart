@@ -4,3 +4,10 @@ enum ProductFetchState {
   success,
   failed,
 }
+
+enum ProductByIdState {
+  idle,
+  loading,
+  success,
+  failed,
+}
