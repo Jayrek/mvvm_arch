@@ -1,27 +1,37 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/constants/constant_string.dart';
 import '../../models/product.dart';
 
 class ProductItemWidget extends StatelessWidget {
   const ProductItemWidget({
     required this.product,
     required this.onTap,
+    this.imageHeight,
+    this.imageWidth,
+    this.borderColor = Colors.black87,
+    this.borderWidth = 0.1,
+    this.maxLines = 2,
     super.key,
   });
 
   final Product product;
   final Function()? onTap;
+  final double? imageHeight;
+  final double? imageWidth;
+  final Color borderColor;
+  final double borderWidth;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
-    const dollarSign = '\$';
     return GridTile(
       child: Material(
         color: Colors.white,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(2)),
-            side: BorderSide(width: 0.1, color: Colors.black87)),
+        shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(2)),
+            side: BorderSide(width: borderWidth, color: borderColor)),
         child: InkWell(
           onTap: onTap,
           child: Column(
@@ -29,10 +39,17 @@ class ProductItemWidget extends StatelessWidget {
               Expanded(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: CachedNetworkImage(
-                    imageUrl: product.image,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
+                  child: Hero(
+                    tag: product.id,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CachedNetworkImage(
+                        imageUrl: product.image,
+                        fit: BoxFit.cover,
+                        width: imageWidth,
+                        height: imageHeight,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -49,7 +66,7 @@ class ProductItemWidget extends StatelessWidget {
                       Text(
                         product.title,
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
+                        maxLines: maxLines,
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall
