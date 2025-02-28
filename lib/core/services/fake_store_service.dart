@@ -65,4 +65,22 @@ class FakeStoreService {
       return Left(UnknownFailure(e.toString()));
     }
   }
+
+  // fetching product by product id
+  Future<Either<Failure, Product>> getProduct(String productId) async {
+    try {
+      final response = await dio.get('$_baseUrl/products/$productId');
+      if (response.statusCode == 200) {
+        final data = response.data;
+        final product = Product.fromJson(data);
+        return Right(product);
+      }
+      return Left(ServerFailure(response.statusCode.toString()));
+    } catch (e) {
+      if (e is DioException) {
+        return Left(NetworkFailure(e.toString()));
+      }
+      return Left(UnknownFailure(e.toString()));
+    }
+  }
 }
