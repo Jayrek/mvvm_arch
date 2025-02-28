@@ -35,4 +35,18 @@ class Product {
   String toString() {
     return 'Product(id: $id, title: $title, description: $description, price: $price, category: $category, image: $image, rating: $rating)';
   }
+
+  // defining static default value for Product
+  static const Product defautlValue = Product(
+    id: 0,
+    title: '',
+    description: '',
+    price: 0.0,
+    category: '',
+    image: '',
+    rating: Rating(
+      rate: 0,
+      count: 1,
+    ),
+  );
 }
