@@ -73,7 +73,7 @@ class ProductItemWidget extends StatelessWidget {
                             ?.copyWith(color: Colors.black),
                       ),
                       Text(
-                        "$dollarSign${product.price}",
+                        "${ConstantString.dollarSign}${product.price}",
                         textAlign: TextAlign.left,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: Colors.deepOrange,

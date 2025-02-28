@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mvvm_arch/core/constants/constant_string.dart';
 
 import '../../core/constants/enums/product_fetch_status.dart';
 import '../../models/product.dart';
@@ -23,14 +24,14 @@ class ProductPanelWidget extends StatelessWidget {
         if (state.productByIdState == ProductByIdState.success &&
             state.product.id != 0 &&
             !state.isTapFromDetail) {
-          Navigator.pushNamed(context, '/productDetail');
+          Navigator.pushNamed(context, ConstantString.navigationProductDetail);
         }
       },
       child: Stack(
         children: [
           if (products.isEmpty && productState.errorMessage.isNotEmpty)
             const Center(
-              child: Text('No products available!'),
+              child: Text(ConstantString.noProducts),
             ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -49,7 +50,6 @@ class ProductPanelWidget extends StatelessWidget {
                   return ProductItemWidget(
                     product: product,
                     onTap: () {
-                      debugPrint('product: $product');
                       context.read<ProductBloc>().add(FetchProduct(
                             productId: product.id.toString(),
                             isTapFromDetail: false,
