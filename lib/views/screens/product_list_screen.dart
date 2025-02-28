@@ -5,6 +5,7 @@ import '../../core/constants/enums/product_fetch_status.dart';
 import '../../models/category.dart';
 import '../../viewmodels/product/product_bloc.dart';
 import '../widgets/category_panel_widget.dart';
+import '../widgets/drawer_widget.dart';
 import '../widgets/product_panel_widget.dart';
 
 class ProductListScreen extends StatelessWidget {
@@ -25,7 +26,9 @@ class ProductListScreen extends StatelessWidget {
         backgroundColor: Colors.deepOrange,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              debugPrint('view cart!');
+            },
             icon: const Icon(
               Icons.shopping_cart,
               color: Colors.white,
@@ -33,7 +36,7 @@ class ProductListScreen extends StatelessWidget {
           )
         ],
       ),
-      drawer: const Drawer(),
+      drawer: const DrawerWidget(),
       body: SingleChildScrollView(
         child: Column(
           children: [
