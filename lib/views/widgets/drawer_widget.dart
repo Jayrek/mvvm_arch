@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants/constant_string.dart';
 import 'drawer_item_widget.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -49,7 +50,7 @@ class DrawerWidget extends StatelessWidget {
               children: [
                 DrawerItemWidget(
                   iconData: Icons.inventory_sharp,
-                  label: 'Products',
+                  label: ConstantString.prdoucts,
                   onTap: () {},
                 ),
                 const Divider(
@@ -58,7 +59,7 @@ class DrawerWidget extends StatelessWidget {
                 ),
                 DrawerItemWidget(
                   iconData: Icons.shopping_cart,
-                  label: 'Cart',
+                  label: ConstantString.cart,
                   onTap: () {},
                 ),
                 const Divider(
@@ -66,7 +67,7 @@ class DrawerWidget extends StatelessWidget {
                   thickness: 0.2,
                 ),
                 DrawerItemWidget(
-                  label: 'About',
+                  label: ConstantString.about,
                   iconData: null,
                   onTap: () {},
                 ),
@@ -75,18 +76,6 @@ class DrawerWidget extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-
-  Widget _buildDrawerItemWidget({
-    required IconData iconData,
-    required String label,
-    required Function()? onTap,
-  }) {
-    return ListTile(
-      leading: Icon(iconData),
-      title: Text(label),
-      onTap: onTap,
     );
   }
 }
