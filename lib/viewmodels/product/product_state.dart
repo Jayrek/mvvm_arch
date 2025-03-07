@@ -1,15 +1,15 @@
 part of 'product_bloc.dart';
 
 class ProductState extends Equatable {
-  const ProductState({
-    this.productFetchState = ProductFetchState.idle,
-    this.productByIdState = ProductByIdState.idle,
-    this.products = const [],
-    this.errorMessage = '',
-    this.categories = const [],
-    this.product = Product.defautlValue,
-    this.isTapFromDetail = false,
-  });
+  const ProductState(
+      {this.productFetchState = ProductFetchState.idle,
+      this.productByIdState = ProductByIdState.idle,
+      this.products = const [],
+      this.errorMessage = '',
+      this.categories = const [],
+      this.product = Product.defautlValue,
+      this.isTapFromDetail = false,
+      this.character = Character.defaultValue});
 
   final ProductFetchState productFetchState;
   final ProductByIdState productByIdState;
@@ -18,6 +18,8 @@ class ProductState extends Equatable {
   final List<Category> categories;
   final Product product;
   final bool isTapFromDetail;
+
+  final Character character;
 
   @override
   List<Object> get props => [
@@ -28,6 +30,7 @@ class ProductState extends Equatable {
         categories,
         product,
         isTapFromDetail,
+        character,
       ];
 
   ProductState copyWith({
@@ -38,6 +41,7 @@ class ProductState extends Equatable {
     List<Category>? categories,
     Product? product,
     bool? isTapFromDetail,
+    Character? character,
   }) {
     return ProductState(
       productFetchState: productFetchState ?? this.productFetchState,
@@ -47,6 +51,7 @@ class ProductState extends Equatable {
       categories: categories ?? this.categories,
       product: product ?? this.product,
       isTapFromDetail: isTapFromDetail ?? this.isTapFromDetail,
+      character: character ?? this.character,
     );
   }
 }

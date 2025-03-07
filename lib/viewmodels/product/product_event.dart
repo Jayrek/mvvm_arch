@@ -35,3 +35,7 @@ class FetchProduct extends ProductEvent {
   @override
   List<Object> get props => [productId, isTapFromDetail];
 }
+
+class FetchCharacterById extends ProductEvent {
+  const FetchCharacterById();
+}

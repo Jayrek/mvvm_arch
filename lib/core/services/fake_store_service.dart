@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:mvvm_arch/models/character.dart';
 import 'package:mvvm_arch/models/product.dart';
 
 import '../../models/cart.dart';
@@ -93,6 +94,26 @@ class FakeStoreService {
         final data = response.data;
         final cart = Cart.fromJson(data);
         return Right(cart);
+      }
+      return Left(ServerFailure(response.statusCode.toString()));
+    } catch (e) {
+      if (e is DioException) {
+        return Left(NetworkFailure(e.toString()));
+      }
+      return Left(UnknownFailure(e.toString()));
+    }
+  }
+
+  // TODO: 2nd create a service/repository class for your http methods, see below implementation
+  // fetching character by id
+  Future<Either<Failure, Character>> getCharacterById() async {
+    try {
+      final response =
+          await dio.get('https://thronesapi.com/api/v2/Characters/1');
+      if (response.statusCode == 200) {
+        final data = response.data;
+        final character = Character.fromJson(data);
+        return Right(character);
       }
       return Left(ServerFailure(response.statusCode.toString()));
     } catch (e) {

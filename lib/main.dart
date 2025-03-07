@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mvvm_arch/core/services/fake_store_service.dart';
 import 'package:mvvm_arch/core/theme/app_theme.dart';
 import 'package:mvvm_arch/viewmodels/product/product_bloc.dart';
+import 'package:mvvm_arch/views/screens/character_screen.dart';
 import 'package:mvvm_arch/views/screens/product_detail_screen.dart';
 import 'package:mvvm_arch/views/screens/product_list_screen.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // TODO: 5th register your blocProvider in the root widget of your app
     return RepositoryProvider(
       create: (context) => FakeStoreService(),
       child: MultiBlocProvider(
@@ -48,6 +50,8 @@ class MyApp extends StatelessWidget {
                 const ProductDetailScreen(),
             ConstantString.navigationCartList: (context) =>
                 const CartListScreen(),
+            ConstantString.navigationCharacter: (context) =>
+                const CharactterScreen(),
           },
           // onGenerateRoute: (settings) {
           //   if (settings.name == '/productDetail') {

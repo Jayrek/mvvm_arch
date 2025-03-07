@@ -50,10 +50,13 @@ class ProductPanelWidget extends StatelessWidget {
                   return ProductItemWidget(
                     product: product,
                     onTap: () {
-                      context.read<ProductBloc>().add(FetchProduct(
-                            productId: product.id.toString(),
-                            isTapFromDetail: false,
-                          ));
+                      // context.read<ProductBloc>().add(FetchProduct(
+                      //       productId: product.id.toString(),
+                      //       isTapFromDetail: false,
+                      //     ));
+                      // TODO: 7th navigate to the character screen
+                      Navigator.pushNamed(
+                          context, ConstantString.navigationCharacter);
                     },
                   );
                 }),

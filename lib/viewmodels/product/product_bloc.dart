@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mvvm_arch/core/services/fake_store_service.dart';
+import 'package:mvvm_arch/models/character.dart';
 
 import '../../core/constants/enums/product_fetch_status.dart';
 import '../../models/category.dart';
@@ -12,6 +13,7 @@ import '../../models/product.dart';
 part 'product_event.dart';
 part 'product_state.dart';
 
+// TODO: 3rd create a bloc class for your business logics
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final FakeStoreService fakeStoreService;
   ProductBloc({required this.fakeStoreService}) : super(const ProductState()) {
@@ -19,6 +21,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<FetchCategoryList>(_onFetchCategoryList);
     on<FetchProductByCategory>(_onFetchProductByCategory);
     on<FetchProduct>(_onFetchProduct);
+    on<FetchCharacterById>(_onFetchCharacterById);
   }
 
   FutureOr<void> _onFetchProductList(
@@ -146,6 +149,29 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             productByIdState: ProductByIdState.success,
             product: data,
             errorMessage: '',
+          ),
+        );
+      },
+    );
+  }
+
+// TODO: 4rd invoke the getCharacterByID from the reposiory class,
+// and handle the response accordingly from the repository (left, right),
+// check the state and event
+  FutureOr<void> _onFetchCharacterById(
+      FetchCharacterById event, Emitter<ProductState> emit) async {
+    final character = await fakeStoreService.getCharacterById();
+    character.fold(
+      (failure) {
+        // emitting the left or exceptions encountered
+        debugPrint('failure: $failure');
+      },
+      (data) {
+        debugPrint('data: $data');
+        // emitting the right or expected data
+        emit(
+          state.copyWith(
+            character: data,
           ),
         );
       },

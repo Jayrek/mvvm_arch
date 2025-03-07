@@ -24,4 +24,5 @@ class ConstantString {
   static const String navigationIndex = '/';
   static const String navigationProductDetail = '/productDetail';
   static const String navigationCartList = '/cartList';
+  static const String navigationCharacter = '/character';
 }
